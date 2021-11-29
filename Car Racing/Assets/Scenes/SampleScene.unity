@@ -469,12 +469,12 @@ Rigidbody:
   m_GameObject: {fileID: 1133548684}
   serializedVersion: 2
   m_Mass: 1
-  m_Drag: 0.15
-  m_AngularDrag: 100
+  m_Drag: 1.5
+  m_AngularDrag: 10
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 0
   m_CollisionDetection: 1
 --- !u!65 &1133548686
 BoxCollider:
@@ -545,13 +545,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1133548684}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 62.7, y: 3.56, z: 71.97}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: 0.9997813, z: -0, w: -0.020915018}
+  m_LocalPosition: {x: 62.961, y: 3.4418, z: 72.0107}
+  m_LocalScale: {x: 0.48824134, y: -0.09972616, z: -0.29526556}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 182.397, z: 0}
 --- !u!114 &1133548690
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -565,7 +565,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerVertical: {x: 0, y: 0, z: 0.2}
-  PlayerHorizontal: {x: 0.2, y: 0, z: 0}
+  MovementRight: {x: 0, y: -0.2, z: 0}
+  MovementLeft: {x: 0, y: 0.2, z: 0}
+  MoveSpeed: 100
+  TurnSpeed: 20
   Right: 100
   Left: 97
   Front: 119
