@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class PlayerControls : MonoBehaviour
 {
-    public float MoveSpeed, TurnSpeed;
+    public float MoveSpeed, TurnSpeed, CantTurn;
     public KeyCode Right, Left, Front, Back;
     Rigidbody PlayerRb;
     float distToGround;
@@ -20,7 +20,7 @@ public class PlayerControls : MonoBehaviour
     }
     bool IsGrounded() 
     {
-        return Physics.Raycast(transform.position, -Vector3.up, distToGround + 0.5f);
+        return Physics.Raycast(transform.position, -Vector3.up, distToGround + 100.5f);
     }
     void Update() 
     {
@@ -32,10 +32,27 @@ public class PlayerControls : MonoBehaviour
     {
         if(IsGrounded())
         {
-            PlayerMovement();
+            PlayerForward();
+            if(SpeedCurrent > CantTurn)
+                PlayerTurn();
         }
     }
-    void PlayerMovement()
+    void PlayerForward()
+    {
+        if(Input.GetKey(Front))
+        {
+            PlayerRb.AddRelativeForce(Vector3.forward * MoveSpeed);
+        }    
+        if(Input.GetKey(Back))
+        {
+            PlayerRb.AddRelativeForce(-Vector3.forward * MoveSpeed);
+        }
+        
+        /*Vector3 LocalVelocity = transform.InverseTransformDirection(PlayerRb.velocity);
+        LocalVelocity.x = 0;
+        PlayerRb.velocity = transform.TransformDirection(LocalVelocity);*/
+    }
+    void PlayerTurn()
     {
         if(Input.GetKey(Left))
         {
@@ -45,12 +62,6 @@ public class PlayerControls : MonoBehaviour
         {
             PlayerRb.AddTorque(Vector3.up * TurnSpeed);
         }
-        if(Input.GetKey(Front))
-        {
-            PlayerRb.AddRelativeForce(Vector3.forward * MoveSpeed);
-        }    
-        if(Input.GetKey(Back))
-            PlayerRb.AddRelativeForce(-Vector3.forward * MoveSpeed);
     }
     
 }
