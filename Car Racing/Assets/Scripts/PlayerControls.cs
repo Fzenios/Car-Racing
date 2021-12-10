@@ -12,6 +12,7 @@ public class PlayerControls : MonoBehaviour
     float distToGround;
     public Text SpeedTxt;
     public float SpeedCurrent;
+    public bool CanMove;
 
     void Start()
     {
@@ -33,11 +34,14 @@ public class PlayerControls : MonoBehaviour
 
     void FixedUpdate()
     {
-        if(IsGrounded())
+        if(CanMove)
         {
-            PlayerForward();
-            if(SpeedCurrent > CantTurn)
-                PlayerTurn();
+            if(IsGrounded())
+            {
+                PlayerForward();
+                if(SpeedCurrent > CantTurn)
+                    PlayerTurn();
+            }
         }
     }
     void PlayerForward()
