@@ -46,13 +46,21 @@ public class PlayerControls : MonoBehaviour
     }
     void PlayerForward()
     {
-        if(Input.GetKey(Front))
+        if(!Input.GetKey(Front) || !Input.GetKey(Back))
         {
-            PlayerRb.AddRelativeForce(Vector3.forward * MoveSpeed);
-        }    
-        if(Input.GetKey(Back))
+            if(Input.GetKey(Front))
+            {
+                PlayerRb.AddRelativeForce(Vector3.forward * MoveSpeed);
+            }    
+            if(Input.GetKey(Back))
+            {
+                PlayerRb.AddRelativeForce(-Vector3.forward * BackSpeed);
+            }
+        }
+        else if (Input.GetKey(Front) && Input.GetKey(Back))
         {
-            PlayerRb.AddRelativeForce(-Vector3.forward * BackSpeed);
+            MoveSpeed = BreakSpeed;
+            BackSpeed = BreakSpeed;
         }
         if(Input.GetKey(Brake))
         {
@@ -66,13 +74,27 @@ public class PlayerControls : MonoBehaviour
     }
     void PlayerTurn()
     {
-        if(Input.GetKey(Left))
+        if(!Input.GetKey(Back))
         {
-            PlayerRb.AddTorque(-Vector3.up * TurnSpeed);
+            if(Input.GetKey(Left))
+            {
+                PlayerRb.AddTorque(-Vector3.up * TurnSpeed);
+            }
+            if(Input.GetKey(Right))
+            {
+                PlayerRb.AddTorque(Vector3.up * TurnSpeed);
+            }
         }
-        if(Input.GetKey(Right))
+        else if(Input.GetKey(Back) && !Input.GetKey(Front))
         {
-            PlayerRb.AddTorque(Vector3.up * TurnSpeed);
+            if(Input.GetKey(Left))
+            {
+                PlayerRb.AddTorque(Vector3.up * TurnSpeed);
+            }
+            if(Input.GetKey(Right))
+            {
+                PlayerRb.AddTorque(-Vector3.up * TurnSpeed);
+            }
         }
     }
     void AccelerationCheck()
