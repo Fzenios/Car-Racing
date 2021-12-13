@@ -7,12 +7,13 @@ public class PlayerControls : MonoBehaviour
 {
     public float MoveSpeed, BackSpeed, BreakSpeed, TurnSpeed, CantTurn;
     public float Gear0, Gear1, Gear2, Gear3, Gear4;
-    public KeyCode Right, Left, Front, Back, Brake;
+    public KeyCode Right, Left, Front, Back, Brake, Lights;
     Rigidbody PlayerRb;
     float distToGround;
     public Text SpeedTxt;
     public float SpeedCurrent;
     public bool CanMove;
+    public GameObject CarLights;
 
     void Start()
     {
@@ -30,6 +31,7 @@ public class PlayerControls : MonoBehaviour
         SpeedTxt.text = SpeedCurrent + " km/h";
         AccelerationCheck();
         RotateCheck();
+        LightsCheck();
     }
 
     void FixedUpdate()
@@ -119,6 +121,16 @@ public class PlayerControls : MonoBehaviour
         if(transform.rotation.eulerAngles.z > 181 && transform.rotation.eulerAngles.z <= 272 )
         {
             transform.Rotate(0,0,50); 
+        }
+    }
+    void LightsCheck()
+    {
+        if(Input.GetKeyDown(Lights))
+        {
+            if(!CarLights.activeSelf)
+                CarLights.SetActive(true);
+            else
+                CarLights.SetActive(false);
         }
     }
     
