@@ -14,6 +14,7 @@ public class PlayerControls : MonoBehaviour
     public float SpeedCurrent;
     public bool CanMove;
     public GameObject CarLights;
+    public GameScr gameScr;
 
     void Start()
     {
@@ -28,7 +29,7 @@ public class PlayerControls : MonoBehaviour
     void Update() 
     {
         SpeedCurrent = PlayerRb.velocity.magnitude * 3.6f;
-        SpeedTxt.text = SpeedCurrent + " km/h";
+        SpeedTxt.text = SpeedCurrent.ToString("0") + " km/h";
         AccelerationCheck();
         RotateCheck();
         LightsCheck();
@@ -133,5 +134,11 @@ public class PlayerControls : MonoBehaviour
                 CarLights.SetActive(false);
         }
     }
-    
+    void OnTriggerEnter(Collider other) 
+    {
+        if(other.tag == "Finish")
+        {
+            gameScr.FinishMap();
+        }        
+    }  
 }
