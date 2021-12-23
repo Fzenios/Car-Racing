@@ -7,18 +7,21 @@ using TMPro;
 public class GameScr : MonoBehaviour
 {
     public GameObject Player;
+    public Transform playertra;
     public PlayerControls playerControls;
     public GameObject CountDown;
     public float TimerCurrent, TimerBest;
-    public Vector3 Lvl1Loc, Lvl2Loc, Lvl3Loc, Lvl4Loc, Lvl5Loc;
     int CurrentLvl;    
     bool TimerStart;
     public TMP_Text TimerTxt;
-    public float[] HighScores;
-    public bool[] LevelsBl;
     public Animator animator;
     public GameObject HighScoreObj;
     public GameObject FinishBtn;
+    public GameObject[] LevelObj;
+    public Vector3[] LvlLoc;
+    public Quaternion[] RotationLoc;
+    public float[] HighScores;
+    public bool[] LevelsBl;
 
      
     void Start()
@@ -27,6 +30,7 @@ public class GameScr : MonoBehaviour
         {
             LevelsBl[i] = false;            
         }        
+        Player.transform.rotation = Quaternion.Euler(RotationLoc[0].x, RotationLoc[0].y, RotationLoc[0].z);
         LevelsBl[0] = true;
         
         TimerTxt.text = "";
@@ -48,13 +52,8 @@ public class GameScr : MonoBehaviour
         animator.SetBool("Finish", false);
         CountDown.SetActive(true);
         HighScoreObj.SetActive(false);
-        StartCoroutine(WaitForTheLights());
-        for (int i = 0; i < LevelsBl.Length; i++)
-        {
-            if(LevelsBl[i])
-                CurrentLvl = i + 1;                        
-        }
-        
+        SetLocation();
+        StartCoroutine(WaitForTheLights()); 
     }
     void DisplayTime()
     {
@@ -82,6 +81,34 @@ public class GameScr : MonoBehaviour
         FinishBtn.SetActive(true);
     }
 
+    public void LoadNextMap()
+    {
+        for (int i = 0; i < LevelsBl.Length; i++)
+        {
+            if(LevelsBl[i])
+                CurrentLvl = i;                        
+        }
+        Player.transform.rotation = Quaternion.Euler(RotationLoc[CurrentLvl + 1].x, RotationLoc[CurrentLvl + 1].y, RotationLoc[CurrentLvl + 1].z);
+        LevelsBl[CurrentLvl] = false;
+        LevelsBl[CurrentLvl + 1] = true;
+        LevelObj[CurrentLvl].SetActive(false);
+        LevelObj[CurrentLvl + 1].SetActive(true);
+
+        FinishBtn.SetActive(false);
+
+        StartCoroutine(WaitForNextMap());
+    }  
+    void SetLocation()
+    {
+        for (int i = 0; i < LevelsBl.Length; i++)
+        {
+            if(LevelsBl[i])
+            {
+                Player.transform.position = new Vector3(LvlLoc[i].x, LvlLoc[i].y, LvlLoc[i].z);  
+            }                     
+        }
+    } 
+
     IEnumerator WaitForTheLights()
     {
         yield return new WaitForSeconds(4);
@@ -90,8 +117,19 @@ public class GameScr : MonoBehaviour
         yield return new WaitForSeconds(2);
         CountDown.SetActive(false);
     }  
-    public void LoadNextMap()
+    IEnumerator WaitForNextMap()
     {
+        TimerStart = false;
+        TimerCurrent = 0.0f;
+        animator.SetBool("Finish", false);
+        TimerTxt.text = "";
+        HighScoreObj.SetActive(false);
+        yield return new WaitForSeconds(10);
+        SetLocation();
+        CountDown.SetActive(true);
+        StartCoroutine(WaitForTheLights()); 
+        
+    }
 
-    }    
+     
 }

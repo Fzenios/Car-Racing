@@ -113,15 +113,18 @@ public class PlayerControls : MonoBehaviour
         }
     }
     void RotateCheck()
-    {       
+    {   
+        
         if(transform.rotation.eulerAngles.z > 88 && transform.rotation.eulerAngles.z < 180 )
         {
-            transform.Rotate(0,0,-50f);
+           // transform.Rotate(0,0,-50f);
+           transform.rotation = Quaternion.Euler(0, 0, 0);    
             
         }
         if(transform.rotation.eulerAngles.z > 181 && transform.rotation.eulerAngles.z <= 272 )
         {
-            transform.Rotate(0,0,50); 
+            transform.rotation = Quaternion.Euler(0, 0, 0);   
+            //transform.Rotate(0,0,50); 
         }
     }
     void LightsCheck()
