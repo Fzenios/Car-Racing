@@ -2,19 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class PlayerControls : MonoBehaviour
 {
     public float MoveSpeed, BackSpeed, BreakSpeed, TurnSpeed, CantTurn;
-    public float Gear0, Gear1, Gear2, Gear3, Gear4;
+    public float Gear0, Gear1, Gear2, Gear3, Gear4, Gear5;
     public KeyCode Right, Left, Front, Back, Brake, Lights;
     Rigidbody PlayerRb;
     float distToGround;
-    public Text SpeedTxt;
+    public TMP_Text SpeedTxt, GearTxt;
     public float SpeedCurrent;
     public bool CanMove;
     public GameObject CarLights;
     public GameScr gameScr;
+    public Animator animator;
+    public int CurrentGear;
 
     void Start()
     {
@@ -29,10 +32,18 @@ public class PlayerControls : MonoBehaviour
     void Update() 
     {
         SpeedCurrent = PlayerRb.velocity.magnitude * 3.6f;
-        SpeedTxt.text = SpeedCurrent.ToString("0") + " km/h";
-        AccelerationCheck();
+        SpeedTxt.text = SpeedCurrent.ToString("0");
+        if(CurrentGear > 0)
+            GearTxt.text = "Gear " + CurrentGear;
+        else if(CurrentGear == 0 && SpeedCurrent > 1)
+            GearTxt.text = "Gear R";
+        else if(CurrentGear == 0 && SpeedCurrent < 1)
+            GearTxt.text = "Gear N";
+
         RotateCheck();
         LightsCheck();
+        animator.SetFloat("Speed", SpeedCurrent);
+
     }
 
     void FixedUpdate()
@@ -42,6 +53,7 @@ public class PlayerControls : MonoBehaviour
             if(IsGrounded())
             {
                 PlayerForward();
+                GearSystem();
                 if(SpeedCurrent > CantTurn)
                     PlayerTurn();
             }
@@ -58,12 +70,14 @@ public class PlayerControls : MonoBehaviour
             if(Input.GetKey(Back))
             {
                 PlayerRb.AddRelativeForce(-Vector3.forward * BackSpeed);
+                CurrentGear = 0;
             }
         }
         else if (Input.GetKey(Front) && Input.GetKey(Back))
         {
             MoveSpeed = BreakSpeed;
             BackSpeed = BreakSpeed;
+            CurrentGear = 0;
         }
         if(Input.GetKey(Brake))
         {
@@ -100,21 +114,46 @@ public class PlayerControls : MonoBehaviour
             }
         }
     }
-    void AccelerationCheck()
+    void GearSystem()
     {
-        if(!Input.GetKey(Brake))
+        if(!Input.GetKey(Brake) && !Input.GetKey(Back))
         {
-            if(SpeedCurrent < 170)
+            if(SpeedCurrent < 1)
+            {
                 MoveSpeed = Gear1;
-            if(SpeedCurrent > 170)
+                CurrentGear = 0;
+            }
+            if(SpeedCurrent > 1 && SpeedCurrent < 80)
+            {
+                MoveSpeed = Gear1;
+                CurrentGear = 1;
+            }
+            if(SpeedCurrent > 80 && SpeedCurrent < 110)
+            {
                 MoveSpeed = Gear2;
+                CurrentGear = 2;
+            }
+            if(SpeedCurrent > 110 && SpeedCurrent < 150)
+            {
+                MoveSpeed = Gear3;
+                CurrentGear = 3;
+            }
+            if(SpeedCurrent > 150 && SpeedCurrent < 190)
+            {
+                MoveSpeed = Gear4;
+                CurrentGear = 4;
+            }
+            if(SpeedCurrent > 190)
+            {
+                MoveSpeed = Gear5;
+                CurrentGear = 5;
+            }
 
             BackSpeed = Gear0;
         }
     }
     void RotateCheck()
-    {   
-        
+    {           
         if(transform.rotation.eulerAngles.z > 88 && transform.rotation.eulerAngles.z < 180 )
         {
            // transform.Rotate(0,0,-50f);

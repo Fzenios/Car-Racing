@@ -47,6 +47,7 @@ public class GameScr : MonoBehaviour
     public void StartMap()
     {
         playerControls.CanMove = false;
+        playerControls.CurrentGear = 0;
         TimerStart = false;
         TimerCurrent = 0.0f;
         animator.SetBool("Finish", false);
@@ -66,6 +67,7 @@ public class GameScr : MonoBehaviour
     public void FinishMap()
     {
         playerControls.CanMove = false;
+        playerControls.CurrentGear = 0;
         TimerStart = false;
         animator.SetBool("Finish", true);
         for (int i = 0; i < LevelsBl.Length; i++)
