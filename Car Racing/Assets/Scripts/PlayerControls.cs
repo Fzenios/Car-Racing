@@ -18,6 +18,7 @@ public class PlayerControls : MonoBehaviour
     public GameScr gameScr;
     public Animator animator;
     public int CurrentGear;
+    public GameObject Backlights;
 
     void Start()
     {
@@ -175,6 +176,11 @@ public class PlayerControls : MonoBehaviour
             else
                 CarLights.SetActive(false);
         }
+        
+        if(Input.GetKey(Back) || Input.GetKey(Brake))
+            Backlights.SetActive(true);
+        else
+            Backlights.SetActive(false);
     }
     void OnTriggerEnter(Collider other) 
     {

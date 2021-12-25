@@ -23,9 +23,19 @@ public class GameScr : MonoBehaviour
     public float[] HighScores;
     public bool[] LevelsBl;
 
-     
-    void Start()
-    { 
+    void Start() 
+    {
+        PrestartGame();        
+    }
+    void Update()
+    {
+        if(TimerStart)
+        {
+            DisplayTime();
+        }
+    }
+    public void PrestartGame()
+    {
         for (int i = 1; i < LevelsBl.Length; i++)
         {
             LevelsBl[i] = false;            
@@ -33,16 +43,7 @@ public class GameScr : MonoBehaviour
         Player.transform.rotation = Quaternion.Euler(RotationLoc[0].x, RotationLoc[0].y, RotationLoc[0].z);
         LevelsBl[0] = true;
         
-        TimerTxt.text = "";
         StartMap();
-    }
-
-    void Update()
-    {
-        if(TimerStart)
-        {
-            DisplayTime();
-        }
     }
     public void StartMap()
     {
@@ -53,8 +54,11 @@ public class GameScr : MonoBehaviour
         animator.SetBool("Finish", false);
         CountDown.SetActive(true);
         HighScoreObj.SetActive(false);
+        FinishBtn.SetActive(false);
+        TimerTxt.text = "";
         SetLocation();
         StartCoroutine(WaitForTheLights()); 
+
     }
     void DisplayTime()
     {
@@ -96,9 +100,19 @@ public class GameScr : MonoBehaviour
         LevelObj[CurrentLvl].SetActive(false);
         LevelObj[CurrentLvl + 1].SetActive(true);
 
-        FinishBtn.SetActive(false);
+        StartMap();
 
-        StartCoroutine(WaitForNextMap());
+        /*FinishBtn.SetActive(false);
+        TimerStart = false;
+        TimerCurrent = 0.0f;
+        animator.SetBool("Finish", false);
+        TimerTxt.text = "";
+        HighScoreObj.SetActive(false);
+        SetLocation();
+        CountDown.SetActive(true);
+        StartCoroutine(WaitForTheLights()); */
+
+        //StartCoroutine(WaitForNextMap());
     }  
     void SetLocation()
     {
@@ -119,7 +133,7 @@ public class GameScr : MonoBehaviour
         yield return new WaitForSeconds(2);
         CountDown.SetActive(false);
     }  
-    IEnumerator WaitForNextMap()
+   /* IEnumerator WaitForNextMap()
     {
         TimerStart = false;
         TimerCurrent = 0.0f;
@@ -131,7 +145,8 @@ public class GameScr : MonoBehaviour
         CountDown.SetActive(true);
         StartCoroutine(WaitForTheLights()); 
         
-    }
+    }*/
+
 
      
 }
