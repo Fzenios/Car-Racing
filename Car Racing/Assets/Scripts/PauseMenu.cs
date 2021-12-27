@@ -5,23 +5,34 @@ using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
-    public GameObject PauseObj, ExitObj;
+    public GameObject PauseObj, StageUnlockObj;
     public GameScr gameScr;
     public bool PauseGame;
+    public bool CanPause = true;
     public AllData allData;
-
+    void Update() 
+    {
+        if(Input.GetKeyDown(KeyCode.Escape))   
+        {
+            
+            PauseBtn();
+        } 
+    }
     public void PauseBtn()
     {
-        PauseGame =! PauseGame;
-        if(PauseGame)
+        if(CanPause)
         {
-            PauseObj.SetActive(true);
-            Time.timeScale = 0;
-        }
-        else
-        {
-            PauseObj.SetActive(false);
-            Time.timeScale = 1;
+            PauseGame =! PauseGame;
+            if(PauseGame)
+            {
+                PauseObj.SetActive(true);
+                Time.timeScale = 0;
+            }
+            else
+            {
+                PauseObj.SetActive(false);
+                Time.timeScale = 1;
+            }
         }
     }
     public void RestartBtn()
@@ -36,6 +47,24 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 1;
         PauseGame = false;
         SceneManager.LoadScene(0);
+    }
+    public void ExitEndGameBtn()
+    {
+        if(!allData.StagesUnlocked)
+        {
+            allData.StagesUnlocked = true;
+            StageUnlockObj.SetActive(true);
+        }
+        else
+        {
+            Time.timeScale = 1;
+            PauseGame = false;
+            SceneManager.LoadScene(0);
+        }
+    }
+    public void CanPauseBool()
+    {
+        CanPause =! CanPause;
     }
 
 }

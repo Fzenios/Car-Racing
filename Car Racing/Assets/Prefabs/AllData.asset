@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: AllData
   m_EditorClassIdentifier: 
   StagesUnlocked: 0
+  CurrentLevel: 2
   HighScores:
   - 0
   - 0
-  - 0
+  - 5.715943
   - 0
   - 0

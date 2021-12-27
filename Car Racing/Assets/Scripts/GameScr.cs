@@ -15,7 +15,7 @@ public class GameScr : MonoBehaviour
     public TMP_Text TimerTxt;
     public Animator animator;
     public GameObject HighScoreObj;
-    public GameObject FinishBtn, EndGameFinishBtn;
+    public GameObject FinishBtn, EndGameFinishBtn, PauseBtn;
     public GameObject[] LevelObj;
     public Vector3[] LvlLoc;
     public Quaternion[] RotationLoc;
@@ -29,7 +29,7 @@ public class GameScr : MonoBehaviour
         for (int i = 0; i < allData.HighScores.Length; i++)
         {
             HighScores[i] = allData.HighScores[i];            
-        }   
+        }  
         PrestartGame();        
     }
     void Update()
@@ -41,17 +41,21 @@ public class GameScr : MonoBehaviour
     }
     public void PrestartGame()
     {
-        for (int i = 1; i < LevelsBl.Length; i++)
+        for (int i = 0; i < LevelsBl.Length; i++)
         {
             LevelsBl[i] = false;            
-        }        
-        Player.transform.rotation = Quaternion.Euler(RotationLoc[0].x, RotationLoc[0].y, RotationLoc[0].z);
-        LevelsBl[0] = true;
+        }   
+        
+        int CurrentLevel = allData.CurrentLevel;
+        LevelsBl[CurrentLevel] = true;   
+        Player.transform.rotation = Quaternion.Euler(RotationLoc[CurrentLevel].x, RotationLoc[CurrentLevel].y, RotationLoc[CurrentLevel].z);
         
         StartMap();
+        LoadFirstMap();
     }
     public void StartMap()
     {
+        PauseBtn.SetActive(true);
         playerControls.CanMove = false;
         playerControls.CurrentGear = 0;
         TimerStart = false;
@@ -87,17 +91,22 @@ public class GameScr : MonoBehaviour
         if(HighScores[CurrentLvl] == 0)
             {
                 HighScores[CurrentLvl] = TimerCurrent;
+                allData.HighScores[CurrentLvl] = HighScores[CurrentLvl];
                 HighScoreObj.SetActive(true);
             }
         else if(TimerCurrent < HighScores[CurrentLvl])
             {
                 HighScores[CurrentLvl] = TimerCurrent;
+                allData.HighScores[CurrentLvl] = HighScores[CurrentLvl];
                 HighScoreObj.SetActive(true);
             }      
         if(CurrentLvl != 4)
             FinishBtn.SetActive(true);
         else
+        {
             EndGameFinishBtn.SetActive(true);
+        }
+        PauseBtn.SetActive(false);
     }
 
     public void LoadNextMap()
@@ -115,6 +124,14 @@ public class GameScr : MonoBehaviour
 
         StartMap();
     }  
+    void LoadFirstMap()
+    {
+        for (int i = 0; i < LevelsBl.Length; i++)
+        {
+            LevelObj[i].SetActive(false);                      
+        }
+        LevelObj[allData.CurrentLevel].SetActive(true);
+    }
     void SetLocation()
     {
         for (int i = 0; i < LevelsBl.Length; i++)
