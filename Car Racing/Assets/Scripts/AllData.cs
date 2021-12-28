@@ -5,14 +5,13 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "AllData", menuName ="AllData")]
 public class AllData : ScriptableObject
 {
-    public bool StagesUnlocked = false;
     public int CurrentLevel;
-    public float[] HighScores;
+    public DataForSaving dataForSaving;
     
-
-    /*void Start() 
+    [System.Serializable]
+    public class DataForSaving
     {
-        StagesUnlocked = false;
-    }*/
-
+        public float[] HighScores;
+        public bool StagesUnlocked;
+    }
 }

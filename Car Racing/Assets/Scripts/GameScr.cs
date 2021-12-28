@@ -23,12 +23,13 @@ public class GameScr : MonoBehaviour
     public bool[] LevelsBl;
     Coroutine WaitforTheLights;
     public AllData allData;
+    public SaveManagerScr saveManagerScr;
 
     void Start() 
     {
-        for (int i = 0; i < allData.HighScores.Length; i++)
+        for (int i = 0; i < allData.dataForSaving.HighScores.Length; i++)
         {
-            HighScores[i] = allData.HighScores[i];            
+            HighScores[i] = allData.dataForSaving.HighScores[i];            
         }  
         PrestartGame();        
     }
@@ -91,13 +92,13 @@ public class GameScr : MonoBehaviour
         if(HighScores[CurrentLvl] == 0)
             {
                 HighScores[CurrentLvl] = TimerCurrent;
-                allData.HighScores[CurrentLvl] = HighScores[CurrentLvl];
+                allData.dataForSaving.HighScores[CurrentLvl] = HighScores[CurrentLvl];
                 HighScoreObj.SetActive(true);
             }
         else if(TimerCurrent < HighScores[CurrentLvl])
             {
                 HighScores[CurrentLvl] = TimerCurrent;
-                allData.HighScores[CurrentLvl] = HighScores[CurrentLvl];
+                allData.dataForSaving.HighScores[CurrentLvl] = HighScores[CurrentLvl];
                 HighScoreObj.SetActive(true);
             }      
         if(CurrentLvl != 4)
@@ -107,6 +108,8 @@ public class GameScr : MonoBehaviour
             EndGameFinishBtn.SetActive(true);
         }
         PauseBtn.SetActive(false);
+        saveManagerScr.Save();
+
     }
 
     public void LoadNextMap()

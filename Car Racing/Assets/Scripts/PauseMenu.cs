@@ -10,6 +10,7 @@ public class PauseMenu : MonoBehaviour
     public bool PauseGame;
     public bool CanPause = true;
     public AllData allData;
+    public SaveManagerScr saveManagerScr;
     void Update() 
     {
         if(Input.GetKeyDown(KeyCode.Escape))   
@@ -50,10 +51,11 @@ public class PauseMenu : MonoBehaviour
     }
     public void ExitEndGameBtn()
     {
-        if(!allData.StagesUnlocked)
+        if(!allData.dataForSaving.StagesUnlocked)
         {
-            allData.StagesUnlocked = true;
+            allData.dataForSaving.StagesUnlocked = true;
             StageUnlockObj.SetActive(true);
+            saveManagerScr.Save();
         }
         else
         {

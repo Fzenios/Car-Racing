@@ -3,17 +3,42 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
+using UnityEngine.UI;
 
 public class MenuBtns : MonoBehaviour
 {
     public AllData allData;
     public TMP_Text[] LevelTxt;
+    public GameObject FinishGameTxt;
+    public GameObject StageSelectOBj;
+    public SaveManagerScr saveManagerScr;
     
+    void Awake() 
+    {
+        allData.dataForSaving.StagesUnlocked = false; 
+        saveManagerScr.Load();        
+    }
+   
+    void Start() 
+    {
+        if(!allData.dataForSaving.StagesUnlocked)
+        {
+            FinishGameTxt.SetActive(true);
+            StageSelectOBj.GetComponent<Image>().color = new Color32(36,36,36,255);   
+            StageSelectOBj.GetComponent<Button>().interactable = false;         
+        }
+        else
+        {
+            FinishGameTxt.SetActive(false);
+            StageSelectOBj.GetComponent<Image>().color = Color.white;
+            StageSelectOBj.GetComponent<Button>().interactable = true;  
+        }
+    }
     void Update() 
     {
         for (int i = 0; i < LevelTxt.Length; i++)
         {
-            LevelTxt[i].text = TimeCalc(allData.HighScores[i]);
+            LevelTxt[i].text = TimeCalc(allData.dataForSaving.HighScores[i]);
         }
     }    
     string TimeCalc(float HighScore)
@@ -48,5 +73,6 @@ public class MenuBtns : MonoBehaviour
         allData.CurrentLevel = 4;
         SceneManager.LoadScene(1);
     }
+
 
 }
