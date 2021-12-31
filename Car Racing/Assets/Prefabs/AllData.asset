@@ -12,13 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3e19c0df9ba01d4ab9ec3b5cca938f8, type: 3}
   m_Name: AllData
   m_EditorClassIdentifier: 
-  CurrentLevel: 0
+  CurrentLevel: 4
   dataForSaving:
     HighScores:
-    - 0
-    - 0
-    - 0
-    - 0
+    - 46.41573
+    - 65.771454
+    - 113.03623
+    - 113.617966
     - 0
     StagesUnlocked: 0
-  saveManagerScr: {fileID: 0}
