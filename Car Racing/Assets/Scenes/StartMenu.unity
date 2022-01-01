@@ -4088,6 +4088,7 @@ GameObject:
   - component: {fileID: 1874337436}
   - component: {fileID: 1874337435}
   - component: {fileID: 1874337437}
+  - component: {fileID: 1874337438}
   m_Layer: 0
   m_Name: PublicScripts
   m_TagString: Untagged
@@ -4117,6 +4118,7 @@ MonoBehaviour:
   FinishGameTxt: {fileID: 1609417244}
   StageSelectOBj: {fileID: 1683052401}
   saveManagerScr: {fileID: 1874337437}
+  soundsScr: {fileID: 1874337438}
 --- !u!4 &1874337436
 Transform:
   m_ObjectHideFlags: 0
@@ -4143,6 +4145,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 095ee9b4f62d42146845f9c729e0fc9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  allData: {fileID: 11400000, guid: fbf6d20029d4b6a4ca28c6bf431b7be7, type: 2}
+--- !u!114 &1874337438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1874337434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96092f6aff1b2cf4fa460a875bf2fb69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Sounds:
+  - Name: Intro
+    Clip: {fileID: 8300000, guid: a3486939bf0dab44b9eb6e1d16a1b56c, type: 3}
+    source: {fileID: 0}
+  mixerGroup: {fileID: 24300002, guid: b5b0b3fc51a7959479ecda2fec9bc459, type: 2}
+  Mixer: {fileID: 24100000, guid: b5b0b3fc51a7959479ecda2fec9bc459, type: 2}
   allData: {fileID: 11400000, guid: fbf6d20029d4b6a4ca28c6bf431b7be7, type: 2}
 --- !u!1 &1903589808
 GameObject:
@@ -4852,8 +4873,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: " Game Designer / Programming / UI / Graphics / Level Design: \n\nTekler\n\nCar
-    Design:\n\nUnity asset store\n\nMusic: \n\nKalamaras "
+  m_text: " Game Designer / Programming / UI /  Level Designer: \n\nTekler\n\nCar
+    Design / Level Materials:\n\nUnity asset store\n\nMusic: \n\nKonstantinos Kalamaras"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}

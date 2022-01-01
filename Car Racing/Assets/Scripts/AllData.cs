@@ -7,6 +7,7 @@ public class AllData : ScriptableObject
 {
     public int CurrentLevel;
     public DataForSaving dataForSaving;
+    public bool Mute;
     
     [System.Serializable]
     public class DataForSaving

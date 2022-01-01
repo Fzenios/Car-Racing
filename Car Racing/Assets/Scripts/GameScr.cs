@@ -24,6 +24,7 @@ public class GameScr : MonoBehaviour
     Coroutine WaitforTheLights;
     public AllData allData;
     public SaveManagerScr saveManagerScr;
+    public SoundsScr soundsScr;
 
     void Start() 
     {
@@ -31,6 +32,7 @@ public class GameScr : MonoBehaviour
         {
             HighScores[i] = allData.dataForSaving.HighScores[i];            
         }  
+        soundsScr.MainGameSong();
         PrestartGame();        
     }
     void Update()

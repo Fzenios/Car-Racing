@@ -12,6 +12,7 @@ public class MenuBtns : MonoBehaviour
     public GameObject FinishGameTxt;
     public GameObject StageSelectOBj;
     public SaveManagerScr saveManagerScr;
+    public SoundsScr soundsScr;
     
     void Awake() 
     {
@@ -33,6 +34,7 @@ public class MenuBtns : MonoBehaviour
             StageSelectOBj.GetComponent<Image>().color = Color.white;
             StageSelectOBj.GetComponent<Button>().interactable = true;  
         }
+        soundsScr.IntroSong();
     }
     void Update() 
     {

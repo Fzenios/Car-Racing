@@ -8,7 +8,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerControls : MonoBehaviour
 {
-    public float MoveSpeed, BackSpeed, BreakSpeed, TurnSpeed, CantTurn;
+    public float MoveSpeed, BackSpeed, BrakeSpeed, TurnSpeed, CantTurn;
     public float Gear0, Gear1, Gear2, Gear3, Gear4, Gear5;
     public KeyCode Right, Left, Front, Back, Brake, Lights;
     Rigidbody PlayerRb;
@@ -21,6 +21,7 @@ public class PlayerControls : MonoBehaviour
     public Animator animator;
     public int CurrentGear;
     public GameObject Backlights;
+    public SoundsScr soundsScr;
 
     void Start()
     {
@@ -53,6 +54,13 @@ public class PlayerControls : MonoBehaviour
     {
         if(CanMove)
         {
+            if(Input.GetKeyDown(Front))
+                soundsScr.Engine("Play");
+            if(Input.GetKeyUp(Front) || Input.GetKeyDown(Back) || Input.GetKeyDown(Brake))
+                soundsScr.Engine("Stop");
+            if(Input.GetKeyUp(Brake) || Input.GetKeyUp(Back) && Input.GetKeyDown(Front))
+                soundsScr.Engine("Play");
+            
             if(IsGrounded())
             {
                 PlayerForward();
@@ -78,14 +86,14 @@ public class PlayerControls : MonoBehaviour
         }
         else if (Input.GetKey(Front) && Input.GetKey(Back))
         {
-            MoveSpeed = BreakSpeed;
-            BackSpeed = BreakSpeed;
+            MoveSpeed = BrakeSpeed;
+            BackSpeed = BrakeSpeed;
             CurrentGear = 0;
         }
         if(Input.GetKey(Brake))
         {
-            MoveSpeed = BreakSpeed;
-            BackSpeed = BreakSpeed;
+            MoveSpeed = BrakeSpeed;
+            BackSpeed = BrakeSpeed;
         }
 
         /*Vector3 LocalVelocity = transform.InverseTransformDirection(PlayerRb.velocity);
