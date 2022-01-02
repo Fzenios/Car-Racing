@@ -13,10 +13,11 @@ public class MenuBtns : MonoBehaviour
     public GameObject StageSelectOBj;
     public SaveManagerScr saveManagerScr;
     public SoundsScr soundsScr;
+    public GameObject MuteBtn;
     
     void Awake() 
     {
-        allData.dataForSaving.StagesUnlocked = false; 
+        allData.dataForSaving.StagesUnlocked = false;   
         saveManagerScr.Load();        
     }
    
@@ -42,6 +43,16 @@ public class MenuBtns : MonoBehaviour
         {
             LevelTxt[i].text = TimeCalc(allData.dataForSaving.HighScores[i]);
         }
+
+        if(allData.MuteMus)
+            MuteBtn.GetComponent<Image>().color = new Color32(255,0,0,255); 
+        else
+            MuteBtn.GetComponent<Image>().color = new Color32(255,255,255,255); 
+
+        if(Input.GetKeyDown(KeyCode.Escape))   
+        { 
+            Application.Quit();
+        } 
     }    
     string TimeCalc(float HighScore)
     {

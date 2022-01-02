@@ -68,6 +68,7 @@ public class GameScr : MonoBehaviour
         HighScoreObj.SetActive(false);
         FinishBtn.SetActive(false);
         TimerTxt.text = "";
+        soundsScr.StartRace("Play");
         SetLocation();
         WaitforTheLights = StartCoroutine(WaitForTheLights()); 
 
@@ -159,6 +160,7 @@ public class GameScr : MonoBehaviour
         if(CountDown.activeSelf)
             CountDown.SetActive(false);
         
+        soundsScr.StartRace("Stop");
         StopCoroutine(WaitforTheLights);
         StartMap();
     }

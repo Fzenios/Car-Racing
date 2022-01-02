@@ -11,7 +11,7 @@ public class PlayerControls : MonoBehaviour
     public float MoveSpeed, BackSpeed, BrakeSpeed, TurnSpeed, CantTurn;
     public float Gear0, Gear1, Gear2, Gear3, Gear4, Gear5;
     public KeyCode Right, Left, Front, Back, Brake, Lights;
-    Rigidbody PlayerRb;
+    public Rigidbody PlayerRb;
     float distToGround;
     public TMP_Text SpeedTxt, GearTxt;
     public float SpeedCurrent;
@@ -22,6 +22,7 @@ public class PlayerControls : MonoBehaviour
     public int CurrentGear;
     public GameObject Backlights;
     public SoundsScr soundsScr;
+    public PauseMenu pauseMenu;
 
     void Start()
     {
@@ -48,19 +49,15 @@ public class PlayerControls : MonoBehaviour
         LightsCheck();
         animator.SetFloat("Speed", SpeedCurrent);
 
+        if(Input.GetKeyDown(Front) && !pauseMenu.PauseGame)
+            soundsScr.Engine("Play");
+        soundsScr.Sounds[1].source.pitch = (PlayerRb.velocity.magnitude / 75) * 3;
     }
 
     void FixedUpdate()
     {
         if(CanMove)
         {
-            if(Input.GetKeyDown(Front))
-                soundsScr.Engine("Play");
-            if(Input.GetKeyUp(Front) || Input.GetKeyDown(Back) || Input.GetKeyDown(Brake))
-                soundsScr.Engine("Stop");
-            if(Input.GetKeyUp(Brake) || Input.GetKeyUp(Back) && Input.GetKeyDown(Front))
-                soundsScr.Engine("Play");
-            
             if(IsGrounded())
             {
                 PlayerForward();
@@ -167,14 +164,11 @@ public class PlayerControls : MonoBehaviour
     {           
         if(transform.rotation.eulerAngles.z > 88 && transform.rotation.eulerAngles.z < 180 )
         {
-           // transform.Rotate(0,0,-50f);
            transform.rotation = Quaternion.Euler(0, 0, 0);    
-            
         }
         if(transform.rotation.eulerAngles.z > 181 && transform.rotation.eulerAngles.z <= 272 )
         {
             transform.rotation = Quaternion.Euler(0, 0, 0);   
-            //transform.Rotate(0,0,50); 
         }
     }
     void LightsCheck()

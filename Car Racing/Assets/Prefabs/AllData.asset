@@ -15,10 +15,11 @@ MonoBehaviour:
   CurrentLevel: 0
   dataForSaving:
     HighScores:
-    - 46.41573
-    - 65.771454
-    - 113.03623
-    - 113.617966
-    - 95.49317
-    StagesUnlocked: 1
-  Mute: 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    StagesUnlocked: 0
+  MuteMus: 0
+  MuteEng: 0

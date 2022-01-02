@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -11,11 +12,14 @@ public class PauseMenu : MonoBehaviour
     public bool CanPause = true;
     public AllData allData;
     public SaveManagerScr saveManagerScr;
+    public SoundsScr soundsScr;
+    public GameObject MuteMusBtn, MuteEngBtn;
+    
     void Update() 
     {
+        MuteCheck();
         if(Input.GetKeyDown(KeyCode.Escape))   
-        {
-            
+        { 
             PauseBtn();
         } 
     }
@@ -28,11 +32,15 @@ public class PauseMenu : MonoBehaviour
             {
                 PauseObj.SetActive(true);
                 Time.timeScale = 0;
+                soundsScr.StartRace("Pause");
+                soundsScr.Engine("Pause");
             }
             else
             {
                 PauseObj.SetActive(false);
                 Time.timeScale = 1;
+                soundsScr.StartRace("UnPause");
+                soundsScr.Engine("UnPause");
             }
         }
     }
@@ -67,6 +75,19 @@ public class PauseMenu : MonoBehaviour
     public void CanPauseBool()
     {
         CanPause =! CanPause;
+    }
+    
+    void MuteCheck()
+    {
+        if(allData.MuteMus)
+            MuteMusBtn.GetComponent<Image>().color = new Color32(255,255,255,100); 
+        else
+            MuteMusBtn.GetComponent<Image>().color = new Color32(255,255,255,255); 
+         
+        if(allData.MuteEng)
+            MuteEngBtn.GetComponent<Image>().color = new Color32(255,255,255,100);   
+        else
+            MuteEngBtn.GetComponent<Image>().color = new Color32(255,255,255,255);    
     }
 
 }
