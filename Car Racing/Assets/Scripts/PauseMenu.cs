@@ -49,6 +49,7 @@ public class PauseMenu : MonoBehaviour
         PauseObj.SetActive(false);
         Time.timeScale = 1;
         PauseGame = false;
+        soundsScr.Engine("UnPause");
         gameScr.RestartMap();
     }
     public void ExitBtn()

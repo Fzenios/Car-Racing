@@ -10,7 +10,7 @@ public class PlayerControls : MonoBehaviour
 {
     public float MoveSpeed, BackSpeed, BrakeSpeed, TurnSpeed, CantTurn;
     public float Gear0, Gear1, Gear2, Gear3, Gear4, Gear5;
-    public KeyCode Right, Left, Front, Back, Brake, Lights;
+    public KeyCode Front, Back, Brake, Lights;
     public Rigidbody PlayerRb;
     float distToGround;
     public TMP_Text SpeedTxt, GearTxt;
@@ -23,12 +23,16 @@ public class PlayerControls : MonoBehaviour
     public GameObject Backlights;
     public SoundsScr soundsScr;
     public PauseMenu pauseMenu;
+    public Joystick joystick;
+    public Button RunBtn, BrakeBtn;
+    public bool RunBool, BrakeBool;
 
     void Start()
     {
         PlayerRb = GetComponent<Rigidbody>();
         Collider collider = GetComponent<Collider>();
         distToGround = collider.bounds.extents.y;
+        soundsScr.Engine("Play");
     }
     bool IsGrounded() 
     {
@@ -49,13 +53,13 @@ public class PlayerControls : MonoBehaviour
         LightsCheck();
         animator.SetFloat("Speed", SpeedCurrent);
 
-        if(Input.GetKeyDown(Front) && !pauseMenu.PauseGame)
-            soundsScr.Engine("Play");
+        //if(Input.GetKeyDown(Front) && !pauseMenu.PauseGame)
+            
         soundsScr.Sounds[1].source.pitch = (PlayerRb.velocity.magnitude / 75) * 3;
     }
 
     void FixedUpdate()
-    {
+    {        
         if(CanMove)
         {
             if(IsGrounded())
@@ -69,28 +73,23 @@ public class PlayerControls : MonoBehaviour
     }
     void PlayerForward()
     {
-        if(!Input.GetKey(Front) || !Input.GetKey(Back))
+        if(!RunBool || !BrakeBool)
         {
-            if(Input.GetKey(Front))
+            if(RunBool)
             {
                 PlayerRb.AddRelativeForce(Vector3.forward * MoveSpeed);
             }    
-            if(Input.GetKey(Back))
+            if(BrakeBool)
             {
                 PlayerRb.AddRelativeForce(-Vector3.forward * BackSpeed);
                 CurrentGear = 0;
             }
         }
-        else if (Input.GetKey(Front) && Input.GetKey(Back))
+        else if (RunBool && BrakeBool)
         {
             MoveSpeed = BrakeSpeed;
             BackSpeed = BrakeSpeed;
             CurrentGear = 0;
-        }
-        if(Input.GetKey(Brake))
-        {
-            MoveSpeed = BrakeSpeed;
-            BackSpeed = BrakeSpeed;
         }
 
         /*Vector3 LocalVelocity = transform.InverseTransformDirection(PlayerRb.velocity);
@@ -98,25 +97,25 @@ public class PlayerControls : MonoBehaviour
         PlayerRb.velocity = transform.TransformDirection(LocalVelocity);*/
     }
     void PlayerTurn()
-    {
-        if(!Input.GetKey(Back))
+    {           
+        if(!BrakeBool)
         {
-            if(Input.GetKey(Left))
+            if(joystick.Horizontal < -0.1)
             {
                 PlayerRb.AddTorque(-Vector3.up * TurnSpeed);
             }
-            if(Input.GetKey(Right))
+            if(joystick.Horizontal > 0.1f)
             {
                 PlayerRb.AddTorque(Vector3.up * TurnSpeed);
             }
         }
-        else if(Input.GetKey(Back) && !Input.GetKey(Front))
+        else if(BrakeBool && !RunBool)
         {
-            if(Input.GetKey(Left))
+            if(joystick.Horizontal < -0.1)
             {
                 PlayerRb.AddTorque(Vector3.up * TurnSpeed);
             }
-            if(Input.GetKey(Right))
+            if(joystick.Horizontal > 0.1f)
             {
                 PlayerRb.AddTorque(-Vector3.up * TurnSpeed);
             }
@@ -124,7 +123,7 @@ public class PlayerControls : MonoBehaviour
     }
     void GearSystem()
     {
-        if(!Input.GetKey(Brake) && !Input.GetKey(Back))
+        if(!BrakeBool)
         {
             if(SpeedCurrent < 1)
             {
@@ -172,16 +171,8 @@ public class PlayerControls : MonoBehaviour
         }
     }
     void LightsCheck()
-    {
-        if(Input.GetKeyDown(Lights))
-        {
-            if(!CarLights.activeSelf)
-                CarLights.SetActive(true);
-            else
-                CarLights.SetActive(false);
-        }
-        
-        if(Input.GetKey(Back) || Input.GetKey(Brake))
+    {        
+        if(BrakeBool)
             Backlights.SetActive(true);
         else
             Backlights.SetActive(false);
@@ -192,5 +183,29 @@ public class PlayerControls : MonoBehaviour
         {
             gameScr.FinishMap();
         }        
-    }  
+    } 
+    public void RunClickDown()
+    {
+        RunBool = true;
+    }
+    public void RunClickUp()
+    {
+        RunBool = false;
+    }
+    public void BrakeClickDown()
+    {
+        BrakeBool = true;
+    }
+    public void BrakeClickUp()
+    {
+        BrakeBool = false;
+    }
+    public void LightClick()
+    {
+        if(!CarLights.activeSelf)
+            CarLights.SetActive(true);
+        else
+            CarLights.SetActive(false);
+    }
+    
 }
