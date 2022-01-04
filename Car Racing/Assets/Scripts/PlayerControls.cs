@@ -10,7 +10,6 @@ public class PlayerControls : MonoBehaviour
 {
     public float MoveSpeed, BackSpeed, BrakeSpeed, TurnSpeed, CantTurn;
     public float Gear0, Gear1, Gear2, Gear3, Gear4, Gear5;
-    public KeyCode Front, Back, Brake, Lights;
     public Rigidbody PlayerRb;
     float distToGround;
     public TMP_Text SpeedTxt, GearTxt;
@@ -22,9 +21,7 @@ public class PlayerControls : MonoBehaviour
     public int CurrentGear;
     public GameObject Backlights;
     public SoundsScr soundsScr;
-    public PauseMenu pauseMenu;
     public Joystick joystick;
-    public Button RunBtn, BrakeBtn;
     public bool RunBool, BrakeBool;
 
     void Start()
@@ -52,8 +49,6 @@ public class PlayerControls : MonoBehaviour
         RotateCheck();
         LightsCheck();
         animator.SetFloat("Speed", SpeedCurrent);
-
-        //if(Input.GetKeyDown(Front) && !pauseMenu.PauseGame)
             
         soundsScr.Sounds[1].source.pitch = (PlayerRb.velocity.magnitude / 75) * 3;
     }
@@ -98,28 +93,27 @@ public class PlayerControls : MonoBehaviour
     }
     void PlayerTurn()
     {           
-        if(!BrakeBool)
+        
+        if(joystick.Horizontal < -0.1)
+        {
+            PlayerRb.AddTorque(-Vector3.up * TurnSpeed);
+        }
+        if(joystick.Horizontal > 0.1f)
+        {
+            PlayerRb.AddTorque(Vector3.up * TurnSpeed);
+        }
+        
+        /*else if(BrakeBool && !RunBool)
         {
             if(joystick.Horizontal < -0.1)
             {
-                PlayerRb.AddTorque(-Vector3.up * TurnSpeed);
-            }
-            if(joystick.Horizontal > 0.1f)
-            {
-                PlayerRb.AddTorque(Vector3.up * TurnSpeed);
-            }
-        }
-        else if(BrakeBool && !RunBool)
-        {
-            if(joystick.Horizontal < -0.1)
-            {
                 PlayerRb.AddTorque(Vector3.up * TurnSpeed);
             }
             if(joystick.Horizontal > 0.1f)
             {
                 PlayerRb.AddTorque(-Vector3.up * TurnSpeed);
             }
-        }
+        }*/
     }
     void GearSystem()
     {
@@ -207,5 +201,4 @@ public class PlayerControls : MonoBehaviour
         else
             CarLights.SetActive(false);
     }
-    
 }
